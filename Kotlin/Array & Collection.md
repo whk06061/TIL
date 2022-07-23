@@ -10,6 +10,8 @@
 
 ---
 
+<br/>
+
 ## **<span style="color:#89a5ea">1. 배열</span>**
 
 - 배열(Array)는 원소의 개수를 정해놓고 사용하는 데이터 타입으로, 중간에 개수를 추가하거나 제거할 수 없습니다.
@@ -58,7 +60,12 @@ var intArray = intArrayOf(1, 2, 3, 4, 5, 6, 7)
 1. 배열명[인덱스]
 2. 배열명.get(인덱스)
    <br/>
-   
+
+<br/>
+
+---
+
+<br/>
 
 ## **<span style="color:#89a5ea">2. 컬렉션</span>**
 
@@ -69,6 +76,8 @@ var intArray = intArrayOf(1, 2, 3, 4, 5, 6, 7)
 - 접두어가 없는 이뮤터블(Immutable) 컬렉션도 있지만, 크기와 값을 변경할 수 없게 됩니다. 그래서 add나 set 함수를 지원하지 않고, 최초 입력된 값을 사용만 할 수 있습니다.
 - ex) listOf, mapOf, setOf
 - 따라서 동적 배열로 사용하기 위해서는 뮤터블로 만들어진 데이터 타입을 사용해야 합니다.
+
+<br/>
 
 ### **<span style="color:#ff8e7f">리스트</span>**
 
@@ -110,6 +119,8 @@ mutableList.add("THU")
 
 - mutableListOf<타입>()
 
+<br/>
+
 ### **<span style="color:#ff8e7f">셋<span/>**
 
 - 셋은 중복을 허용하지 않는 리스트입니다.
@@ -135,6 +146,8 @@ set.add("FEB")
 ```kotlin
 set.remove("FEB")
 ```
+
+<br/>
 
 ### **<span style="color:#ff8e7f">맵</span>**
 
