@@ -58,8 +58,7 @@ var intArray = intArrayOf(1, 2, 3, 4, 5, 6, 7)
 1. 배열명[인덱스]
 2. 배열명.get(인덱스)
    <br/>
-
----
+   
 
 ## **<span style="color:#89a5ea">2. 컬렉션</span>**
 
