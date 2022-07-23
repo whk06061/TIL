@@ -119,7 +119,7 @@ KotlinFour.printOne()
 
 - 우리가 지금까지 사용한 Log 클래스의 메서드 d(), e()가 모두 companion object 코드 블록 안에 만들어져 있기 때문에 생성자 없이 바로 호출해서 사용할 수 있었습니다.
 
-## 3. 클래스의 상속과 확장
+## 4. 클래스의 상속과 확장
 
 ### 상속은 왜 사용할까?
 
@@ -170,7 +170,7 @@ class ChildClass: BaseClass(){
 }
 ```
 
-## 4. 설계도구
+## 5. 설계도구
 
 ### 추상화
 
@@ -196,3 +196,47 @@ class Implements: Design(){
 
 - 인터페이스는 실행 코드 없이 메서드 이름만 가진 추상 클래스라고 생각해도 무방합니다.
 - 즉, 개념 클래스 중에 실행 코드가 한 줄이라도 있으면 추상화, 코드 없이 메서드 이름만 나열되어 있으면 인터페이스 입니다.
+- 인터페이스는 상속 관계의 설계보다는 외부 모듈에서 내가 만든 모듈을 사용할 수 있도록 메서드의 이름만 나열해둔 일종의 명세서로 제공됩니다.
+
+```kotlin
+interface 인터페이스명{
+    var 변수: String
+    fun 함수1()
+    fun 함수2()
+}
+
+```
+
+- 코틀린은 프로퍼티도 인터페이스 내부에 정의할 수 있는데, 대부분의 객체지향 언어에서는 지원하지 않습니다.
+- 추상 클래스와 다르게 class 키워드는 사용되지 않습니다.
+- 인터페이스의 프로퍼티와 메서드 앞에는 abstract 키워드가 생략된 형태입니다.
+
+#### 클래스에서 구현하기
+
+- 인터페이스를 클래스에서 구현할 때는 상속과는 다르게 생성자를 호출하지 않고 인터페이스 이름만 지정해주면 됩니다.
+
+```kotlin
+interface InterfaceKotlin{
+    var variable: String
+    fun get()
+    fun set()
+}
+
+class KotlinImpl: InterfaceKotlin{
+    override var variable: String = "init value"
+    override fun get() { /*..*/ }
+    override fun set() { /*..*/ }
+}
+```
+
+- 인터페이스를 클래스의 상속 형태가 아닌 소스 코드에서 직접 구현할 때도 있는데, object 키워드를 사용해서 구현해야 합니다.
+
+```kotlin
+var kotlinImpl = object: InterfaceKotlin {
+    override var variable: String = "init value"
+    override fun get() { /*..*/ }
+    override fun set() { /*..*/ }
+}
+```
+
+- 인터페이스는 외부의 다른 모듈을 위한 의사소통 방식을 정의하는 것입니다. 혼자 개발할 때는 인터페이스를 사용하지 않는 것이 좋습니다. 남용하면 코드의 가독성과 구현 효율성이 떨어지기 때문입니다.
