@@ -6,7 +6,6 @@
 
 ---
 
-
 # 주요 문제 정리
 
 ## 1000. A+B
@@ -67,11 +66,18 @@ print(sum(map(int, input().split())))
 
 - ### map 함수
   - map(적용할 함수, 반복가능한 자료형) 형태로 쓰인다.
+  - map 함수의 반환 값은 map 객체라서 list나 tuple로 형변환을 시켜서 사용해야 한다.
+  - 혹은 변수에 곧바로 집어넣는 방법을 사용해도 된다.
   - 예시
   ```python
+  # 변수에 바로 집어넣기
   A, B = map(int, input().split())
   >> 11 12
   # A와 B에 각각 11과 12가 int 형태로 들어간다.
+  # list로 형변환 하기
+  list(map(int, input().split()))
+  print(list[0])
+  >> 11
   ```
 - ### sum 함수
   - iterable한 자료형을 받으며, numeric 해야 됨 (리스트나 튜플 처럼 인덱스 순환 접근이 가능하며 내부가 숫자로만 이루저여 있어야 함)
