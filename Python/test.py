@@ -1,3 +1,4 @@
+import sys
 
 # 1. 같은 눈 세개 : 10,000 + 같은 눈 * 1,000
 # 2. 같은 눈 두개 : 1,000 + 같은 눈 * 100
@@ -23,5 +24,5 @@
 #     print(lst[2]*100)
 
 a = int(input())
-
-print(sum(range(1, a+1)))
+for i in range(1, a+1):
+    print(" "*(a-i) + "*"*i)
