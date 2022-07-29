@@ -23,6 +23,17 @@ import sys
 # else:
 #     print(lst[2]*100)
 
-a = int(input())
-for i in range(1, a+1):
-    print(" "*(a-i) + "*"*i)
+
+a = input()
+num = 1
+if int(a) < 10:
+    a = a + '0'
+b = a
+while 1:
+    add_digit = str(int(b[0]) + int(b[1]))
+    if int(add_digit)>9: add_digit = add_digit[1]
+    temp = str(b)[1] + add_digit
+    if(int(temp) == int(a)): break
+    b = temp
+    num += 1
+print(num)
