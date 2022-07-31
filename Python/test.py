@@ -23,17 +23,7 @@ import sys
 # else:
 #     print(lst[2]*100)
 
-
-a = input()
-num = 1
-if int(a) < 10:
-    a = a + '0'
-b = a
-while 1:
-    add_digit = str(int(b[0]) + int(b[1]))
-    if int(add_digit)>9: add_digit = add_digit[1]
-    temp = str(b)[1] + add_digit
-    if(int(temp) == int(a)): break
-    b = temp
-    num += 1
-print(num)
+a = int(input())
+for _ in range(a):
+    b = list(map(int, sys.stdin.readline().split()))
+    print(b)
