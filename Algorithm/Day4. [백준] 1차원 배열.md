@@ -85,7 +85,7 @@ for i in range(9):
 
 <br/>
 
-> ### 내 코드 [ 메모리 : 30840 KB / 시간 72ms ]
+> ### 내 코드 [ 메모리 : 30840 KB / 시간 68ms ]
 
 ```python
 import sys
