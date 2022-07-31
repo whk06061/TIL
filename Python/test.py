@@ -26,4 +26,6 @@ import sys
 a = int(input())
 for _ in range(a):
     b = list(map(int, sys.stdin.readline().split()))
-    print(b)
+    avg = sum(b[1:])/b[0]
+    c = [x for x in b if x>avg]
+    print(f'{len(c)/len(b[1:])*100:.3f}%')
