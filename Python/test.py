@@ -34,3 +34,14 @@ import sys
 # print(*a, sep="\n")
 
 #한수 개수 구하기
+a = int(input())
+if a<= 99: num = a
+else:
+    num = 99
+    for b in range(100, a+1):
+        str_b = str(b)
+        if int(str_b[1])-int(str_b[0]) == int(str_b[2])-int(str_b[1]): 
+            num += 1
+print(num)
+
+
