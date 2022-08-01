@@ -34,14 +34,25 @@ import sys
 # print(*a, sep="\n")
 
 #한수 개수 구하기
-a = int(input())
-if a<= 99: num = a
-else:
-    num = 99
-    for b in range(100, a+1):
-        str_b = str(b)
-        if int(str_b[1])-int(str_b[0]) == int(str_b[2])-int(str_b[1]): 
-            num += 1
-print(num)
+# a = input()
+# result = []
+# for i in range(97, 123):
+#     if chr(i) in a:
+#         result.append(a.index(chr(i)))
+#     else:
+#         result.append(-1)
+# print(*result, sep=" ")
 
+a = input()
+result = {}
+for i in a:
+    if i in result:
+        result[i] += 1
+    else: result[i] = 1
+max_value = max(result, key = result.get)
+if len(find_keys(result, max_value)) == 1:
+    print()
+print(max(result, key = result.get))
 
+def find_keys(dict, val):
+    return list(key for key, value in dict.items() if value == val)
