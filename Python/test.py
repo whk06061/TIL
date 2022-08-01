@@ -23,9 +23,14 @@ import sys
 # else:
 #     print(lst[2]*100)
 
-a = int(input())
-for _ in range(a):
-    b = list(map(int, sys.stdin.readline().split()))
-    avg = sum(b[1:])/b[0]
-    c = [x for x in b if x>avg]
-    print(f'{len(c)/len(b[1:])*100:.3f}%')
+# 생성자 없는 수 구하기
+# a = [x for x in range(0,10001)]
+# for i in range(0,10001):
+#     result = i
+#     for j in str(i):
+#         result += int(j)
+#     if result in a:
+#         a.remove(result)
+# print(*a, sep="\n")
+
+#한수 개수 구하기
