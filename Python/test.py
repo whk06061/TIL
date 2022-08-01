@@ -43,16 +43,20 @@ import sys
 #         result.append(-1)
 # print(*result, sep=" ")
 
-a = input()
+
+
+def find_keys(dict, val):
+    return list(key for key, value in dict.items() if value == val)
+
+a = input().upper()
 result = {}
 for i in a:
     if i in result:
         result[i] += 1
     else: result[i] = 1
-max_value = max(result, key = result.get)
-if len(find_keys(result, max_value)) == 1:
-    print()
-print(max(result, key = result.get))
-
-def find_keys(dict, val):
-    return list(key for key, value in dict.items() if value == val)
+max_value = max(result.values())
+key_list = find_keys(result, max_value)
+if len(key_list) == 1:
+    print(key_list[0])
+else:
+    print("?")
