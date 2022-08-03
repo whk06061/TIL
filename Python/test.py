@@ -45,18 +45,11 @@ import sys
 
 
 
-def find_keys(dict, val):
-    return list(key for key, value in dict.items() if value == val)
-
-a = input().upper()
-result = {}
-for i in a:
-    if i in result:
-        result[i] += 1
-    else: result[i] = 1
-max_value = max(result.values())
-key_list = find_keys(result, max_value)
-if len(key_list) == 1:
-    print(key_list[0])
-else:
-    print("?")
+a = input()
+b = ["c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="]
+count = 0
+for i in b:
+    if a.find(i) != -1: 
+        count += 1
+        a = a.replace(i, "")
+print(count + len(a))
