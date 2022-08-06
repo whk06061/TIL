@@ -50,7 +50,9 @@ count = 0
 index = []
 for _ in range(a):
     b = list(sys.stdin.readline().rstrip())
-    set_b = set(b)
-    if len(set_b) is len(b):
+    index = []
+    for i in b:
+        index.append(b.index(i))
+    if sorted(index) == index:
         count += 1
 print(count)
