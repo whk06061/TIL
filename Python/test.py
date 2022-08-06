@@ -45,11 +45,12 @@ import sys
 
 
 
-a = input()
-b = ["c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="]
+a = int(input())
 count = 0
-for i in b:
-    if a.find(i) != -1: 
+index = []
+for _ in range(a):
+    b = list(sys.stdin.readline().rstrip())
+    set_b = set(b)
+    if len(set_b) is len(b):
         count += 1
-        a = a.replace(i, "")
-print(count + len(a))
+print(count)
