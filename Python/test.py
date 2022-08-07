@@ -46,13 +46,28 @@ import sys
 
 
 a = int(input())
-count = 0
-index = []
-for _ in range(a):
-    b = list(sys.stdin.readline().rstrip())
-    index = []
-    for i in b:
-        index.append(b.index(i))
-    if sorted(index) == index:
-        count += 1
-print(count)
+current = 1
+plus = 5
+#분모
+parent = 1
+#분자
+child = 1
+count = 1
+#a의 범위 구하기
+while a > current:
+    current += plus
+    plus += 4
+    parent += 2
+parent_copy = parent
+#분수 구하기
+while a != current:
+    if count >= parent_copy:
+        child -= 1
+        if count > parent_copy:
+            parent += 1
+    else:
+        parent -= 1
+        child += 1
+    count += 1
+    current -= 1
+print(f'{child}/{parent}')
