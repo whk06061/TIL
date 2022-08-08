@@ -1,4 +1,3 @@
-import sys
 
 # 1. 같은 눈 세개 : 10,000 + 같은 눈 * 1,000
 # 2. 같은 눈 두개 : 1,000 + 같은 눈 * 100
@@ -44,7 +43,13 @@ import sys
 # print(*result, sep=" ")
 
 import math 
+import sys
 
-a, b, c = map(int, input().split())
-result = math.ceil((c-a) / (a-b)) 
-print(result)
+a = int(sys.stdin.readline())
+for _ in range(a):
+    h, w, n = map(int, sys.stdin.readline().split())
+    floor = n % h
+    if floor == 0:
+        floor = h
+    number = math.ceil(n/h)
+    print(f'{floor}{number}' if number > 9 else f'{floor}0{number}')
