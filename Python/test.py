@@ -43,31 +43,8 @@ import sys
 #         result.append(-1)
 # print(*result, sep=" ")
 
+import math 
 
-
-a = int(input())
-current = 1
-plus = 5
-#분모
-parent = 1
-#분자
-child = 1
-count = 1
-#a의 범위 구하기
-while a > current:
-    current += plus
-    plus += 4
-    parent += 2
-parent_copy = parent
-#분수 구하기
-while a != current:
-    if count >= parent_copy:
-        child -= 1
-        if count > parent_copy:
-            parent += 1
-    else:
-        parent -= 1
-        child += 1
-    count += 1
-    current -= 1
-print(f'{child}/{parent}')
+a, b, c = map(int, input().split())
+result = math.ceil((c-a) / (a-b)) 
+print(result)
