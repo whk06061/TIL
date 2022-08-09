@@ -41,14 +41,25 @@
 #     else:
 #         result.append(-1)
 # print(*result, sep=" ")
-
 import sys
-a = int(sys.stdin.readline())
-for _ in range(a):
-    k = int(sys.stdin.readline())
-    n = int(sys.stdin.readline())
-    f0 = [x for x in range(1, n+1)]
-    for i in range(k):
-        for j in range(1, n):
-            f0[j] += f0[j-1]
-    print(f0[-1])
+
+a = int(input())
+result5 = 1
+result3 = 1
+result = 0
+current = 0
+if a % 5 == 0:
+    result5 = a // 5
+    result = result5
+elif a % 3 == 0:
+    result3 = a // 3
+    result = result3
+while result5 <= a // 5:
+    rest = a - result5 * 5
+    if rest % 3 == 0:
+        result3 = rest // 3
+        print(result5 + result3)
+        sys.exit()
+    else:
+        result5 += 1
+print(-1)
