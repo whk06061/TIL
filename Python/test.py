@@ -41,25 +41,6 @@
 #     else:
 #         result.append(-1)
 # print(*result, sep=" ")
-import sys
 
-a = int(input())
-result5 = 1
-result3 = 1
-result = 0
-current = 0
-if a % 5 == 0:
-    result5 = a // 5
-    result = result5
-elif a % 3 == 0:
-    result3 = a // 3
-    result = result3
-while result5 <= a // 5:
-    rest = a - result5 * 5
-    if rest % 3 == 0:
-        result3 = rest // 3
-        print(result5 + result3)
-        sys.exit()
-    else:
-        result5 += 1
-print(-1)
+a, b = map(int, input().split())
+print(a+b)
