@@ -42,5 +42,15 @@
 #         result.append(-1)
 # print(*result, sep=" ")
 
-a, b = map(int, input().split())
-print(a+b)
+while True:
+    result = 0
+    inputNum = int(input())
+    if inputNum == 0:
+        break
+    for number in range(inputNum+1, 2*inputNum+1):
+        for i in range(2, int(number**0.5)+1):
+            if number % i == 0:
+                break
+        else:
+            result += 1
+    print(result)
