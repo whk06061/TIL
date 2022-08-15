@@ -42,23 +42,37 @@
 #         result.append(-1)
 # print(*result, sep=" ")
 
-N = 123456
-sosoo_list = [False] * (N*2+1)
-# 2 * N 까지의 모든 소수 구하기
-for i in range(2,N*2+1):
+import sys
+
+N = 10000
+sosoo_list = []
+for i in range(2, 10001):
     for j in range(2, int(i**0.5)+1):
-        if i % j == 0:
+        if i % j  == 0 :
             break
     else:
-        sosoo_list[i] = True
+        sosoo_list.append(i)
 
-# 입력받은 수 범위에서 소수 개수 구하기
-while True:
-    result = 0
-    input_n = int(input())
-    if input_n == 0:
-        break
-    for i in range(input_n+1, 2*input_n+1):
-        if sosoo_list[i] == True:
-            result += 1
-    print(result)
+input_n = int(input())
+for _ in range(input_n):
+    even_number = int(sys.stdin.readline())
+    # 짝수를 반으로 나눈 값을 기준으로 함
+    pivot = even_number // 2
+    # 반으로 나눈 값이 소수라면 바로 정답 출력
+    if pivot in sosoo_list:
+        print(f'{pivot} {pivot}')
+    # 아니라면 구해줘야 함
+    else:
+        while True:
+            # pivot이 소수가 될 때 까지 1을 빼줌
+            if pivot in sosoo_list:
+                # pivot 말고 나머지 값도 소수라면 답 출력
+                if (even_number - pivot) in sosoo_list:
+                    print(f'{pivot} {even_number-pivot}')
+                    break
+                # 아니라면 pivot을 더 작은 소수로 바꿔줌
+                else:
+                    pivot_index = sosoo_list.index(pivot)
+                    pivot = sosoo_list[pivot_index-1]
+            else:
+                pivot -= 1
