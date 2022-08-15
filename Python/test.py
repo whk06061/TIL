@@ -42,15 +42,23 @@
 #         result.append(-1)
 # print(*result, sep=" ")
 
+N = 123456
+sosoo_list = [False] * (N*2+1)
+# 2 * N 까지의 모든 소수 구하기
+for i in range(2,N*2+1):
+    for j in range(2, int(i**0.5)+1):
+        if i % j == 0:
+            break
+    else:
+        sosoo_list[i] = True
+
+# 입력받은 수 범위에서 소수 개수 구하기
 while True:
     result = 0
-    inputNum = int(input())
-    if inputNum == 0:
+    input_n = int(input())
+    if input_n == 0:
         break
-    for number in range(inputNum+1, 2*inputNum+1):
-        for i in range(2, int(number**0.5)+1):
-            if number % i == 0:
-                break
-        else:
+    for i in range(input_n+1, 2*input_n+1):
+        if sosoo_list[i] == True:
             result += 1
     print(result)
