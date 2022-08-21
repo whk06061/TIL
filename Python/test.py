@@ -42,37 +42,21 @@
 #         result.append(-1)
 # print(*result, sep=" ")
 
-import sys
 
-N = 10000
-sosoo_list = []
-for i in range(2, 10001):
-    for j in range(2, int(i**0.5)+1):
-        if i % j  == 0 :
-            break
+def answer(n, i):
+    if n==1:
+        print(f'{"_"*4*i}\"재귀함수가 뭔가요?\"')
+        print(f'{"_"*4*i}\"재귀함수는 자기 자신을 호출하는 함수라네\"')
     else:
-        sosoo_list.append(i)
+        print(f'{"_"*4*i}\"재귀함수가 뭔가요?\"')
+        print(f'{"_"*4*i}\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.\n{"_"*4*i}마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.\n{"_"*4*i}그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"')     
+        answer(n-1, i+1)
+    print(f'{"_"*4*i}라고 답변하였지.')
 
-input_n = int(input())
-for _ in range(input_n):
-    even_number = int(sys.stdin.readline())
-    # 짝수를 반으로 나눈 값을 기준으로 함
-    pivot = even_number // 2
-    # 반으로 나눈 값이 소수라면 바로 정답 출력
-    if pivot in sosoo_list:
-        print(f'{pivot} {pivot}')
-    # 아니라면 구해줘야 함
-    else:
-        while True:
-            # pivot이 소수가 될 때 까지 1을 빼줌
-            if pivot in sosoo_list:
-                # pivot 말고 나머지 값도 소수라면 답 출력
-                if (even_number - pivot) in sosoo_list:
-                    print(f'{pivot} {even_number-pivot}')
-                    break
-                # 아니라면 pivot을 더 작은 소수로 바꿔줌
-                else:
-                    pivot_index = sosoo_list.index(pivot)
-                    pivot = sosoo_list[pivot_index-1]
-            else:
-                pivot -= 1
+n = int(input())
+print("어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.")
+print("\"재귀함수가 뭔가요?\"")
+print("\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.\n마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.\n그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"")
+i = 1
+answer(n, i)
+print("라고 답변하였지.")

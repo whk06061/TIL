@@ -226,3 +226,29 @@ pivot이 소수가 아니라면 이제 10번째 줄의 else 문으로 이동한�
 만약 pivot이 소수가 됐다면, 이제 even_number에서 pivot을 뺀 수도 소수인지 검사해준다.
 <br/>소수라면 답을 출력해주고 while문을 벗어난다.
 <br/>소수가 아니라면 현재 pivot보다 작은 최대의 소수로 pivot을 대체해준다. 이 과정은 even_number에서 새로운 pivot을 뺀 값이 소수가 될 때 까지 반복해준다.
+
+### 5. 더 간결하게 보완
+
+```python
+import sys
+
+N = 10000
+sosoo_list = []
+for i in range(2, 10001):
+    for j in range(2, int(i**0.5)+1):
+        if i % j  == 0 :
+            break
+    else:
+        sosoo_list.append(i)
+
+input_n = int(input())
+for _ in range(input_n):
+    even_number = int(sys.stdin.readline())
+    # 짝수를 반으로 나눈 값을 기준으로 함
+    pivot = even_number // 2
+    # 반으로 나눈 값이 소수라면 바로 정답 출력
+    for i in range(pivot, 1, -1):
+        if i in sosoo_list and (even_number-i) in sosoo_list:
+             print(f'{i} {even_number-i}')
+             break
+```
