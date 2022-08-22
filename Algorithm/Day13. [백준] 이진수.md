@@ -4,13 +4,11 @@ https://covenant.tistory.com/224
 
 - Par1. 준비운동
 
-### 백준 문제 :
+# 백준 주요 문제 정리 :
 
-3460
+3460, 2309
 
 ---
-
-# 주요 문제 정리
 
 ## 3460. 이진수
 
@@ -97,3 +95,129 @@ my_list.reverse()
 ```python
 reversed(my_list)
 ```
+
+---
+
+## 2309. 일곱 난쟁이
+
+<br/>
+
+> ### [문제](https://www.acmicpc.net/problem/2309)
+
+#### <br/>왕비를 피해 일곱 난쟁이들과 함께 평화롭게 생활하고 있던 백설공주에게 위기가 찾아왔다. 일과를 마치고 돌아온 난쟁이가 일곱 명이 아닌 아홉 명이었던 것이다.<br/>아홉 명의 난쟁이는 모두 자신이 "백설 공주와 일곱 난쟁이"의 주인공이라고 주장했다. 뛰어난 수학적 직관력을 가지고 있던 백설공주는, 다행스럽게도 일곱 난쟁이의 키의 합이 100이 됨을 기억해 냈다.<br/>아홉 난쟁이의 키가 주어졌을 때, 백설공주를 도와 일곱 난쟁이를 찾는 프로그램을 작성하시오.
+
+<br/>
+
+> ### Python3 코드
+
+```python
+height_list = []
+one = 0
+two = 0
+is_break = False
+
+for _ in range(9):
+    height_list.append(int(input()))
+
+for i in range(0, 8):
+    for j in range(i+1, 9):
+        if height_list[i] + height_list[j] == sum(height_list) - 100:
+            one = height_list[i]
+            two = height_list[j]
+            is_break = True
+            break
+    if is_break:
+        break
+height_list.remove(one)
+height_list.remove(two)
+height_list.sort()
+for i in height_list:
+    print(i)
+```
+
+<br/>
+
+> ### Python3 코드 풀이
+
+### 1. 문제 요약
+
+이 문제는 일곱 난쟁이의 키의 합이 100이라는 사실을 이용하여 일곱 난쟁이가 아닌 두명은 뺀 후 일곱 난쟁이를 키에 대해 오름차순으로 출력하는 문제이다.
+<br/>
+
+일곱난쟁이의 키의 합이 100이기 때문에 입력받은 아홉 난쟁이들의 키의 합에서 100을 뺀 수가 일곱난쟁이가 아닌 두 난쟁이의 키의 합이 된다. <br/>따라서 for문을 돌면서 모든 조합의 난쟁이 두쌍의 키의 합을 계산해봐야 한다.
+
+### 2. 변수 설명
+
+```python
+height_list = []
+one = 0
+two = 0
+is_break = False
+```
+
+height_list는 난쟁이들의 키를 저장하는 변수이다.
+one과 two는 일곱 난쟁이가 아닌 난쟁이 두명의 각각의 키를 저장하는 변수이다.
+is_break는 이중 for문을 벗어나기 위한 장치로, 내부 for문에서 벗어난다면 외부 for문에서도 벗어날 수 있게해준다.
+
+### 3. 난쟁이 입력받기
+
+```python
+for _ in range(9):
+    height_list.append(int(input()))
+```
+
+for문을 이용해서 난쟁이 9명의 키를 입력받아 리스트에 추가해준다.
+
+### 4. 일곱 난쟁이가 아닌 난쟁이 두명 구하기
+
+```python
+for i in range(0, 8):
+    for j in range(i+1, 9):
+        if height_list[i] + height_list[j] == sum(height_list) - 100:
+            one = height_list[i]
+            two = height_list[j]
+            is_break = True
+            break
+    if is_break:
+        break
+```
+
+for문의 i와 j는 인덱스를 나타내는 변수이다.
+외부 for문은 원소와 그 다음 원소를 조합해줘야 하기 때문에 마지막 인덱스보다 하나 앞까지만 돈다.
+내부 for문은 i와 그 다음 인덱스들을 조합시켜줘야 하기 때문에 i+1부터 마지막 인덱스까지 돈다.
+만약 i번째와 j번째 난쟁이의 키의 합이 9명의 키의 합에서 100을 뺀 수와 같다면 그 둘이 일곱난쟁이가 아닌것으로 판명난다. 그래서 one과 two 변수에 그 두명의 키를 저장해주고 내부 for문이 종료된다. is_break 변수가 True가 됐으므로 외부 for문도 종료된다.
+
+### 5. 답 구하기
+
+```python
+height_list.remove(one)
+height_list.remove(two)
+height_list.sort()
+for i in height_list:
+    print(i)
+```
+
+문제의 정답은 일곱 난쟁이들을 키에 대해 오름차순으로 출력해야 한다.
+그래서 앞에서 구한 두 난쟁이를 난쟁이 리스트에서 제거해준다.
+sort함수를 이용해서 난쟁이들을 오름차순으로 정렬해준 후 for문을 통해 답을 출력해준다.
+
+### 6. 리스트 요소 제거하기
+
+#### 1. 인덱스로 제거하기
+
+- del 리스트명[인덱스]
+  - del을 통한 삭제는 슬라이싱을 통해 여러개를 한번에 삭제할수도 있다.
+  ```python
+  user_list = ['Jason' , 'Smith', 'Kevin']
+  del user_list[1:3]
+  print(user_list)
+  >> ['Jason']
+  ```
+- 리스트명.pop(인덱스)
+  - 만약 매개변수가 없다면 자동으로 -1값이 들어가서 리스트의 맨 마지막 요소가 제거된다.
+
+#### 2. 값으로 제거하기
+
+- 리스트.remove(값)
+  - 리스트에서 같은 값을 가지는 원소를 지워준다. 하지만 모든 값을 지워주지는 않고 가장 먼저 발견된 요소를 지워준다.
+  - 만약 같은 값을 가지는 모든 요소를 제거하고 싶다면 반복문을 통해 삭제해줘야 한다.

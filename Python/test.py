@@ -18,4 +18,5 @@ for i in range(0, 8):
 height_list.remove(one)
 height_list.remove(two)
 height_list.sort()
-print(height_list)
+for i in height_list:
+    print(i)
