@@ -2,7 +2,7 @@
 
 https://covenant.tistory.com/224
 
-- Par1. 준비운동
+- Par1. 튼튼한 기본기
 
 # 백준 주요 문제 정리 :
 
