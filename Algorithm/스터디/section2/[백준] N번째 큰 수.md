@@ -1,3 +1,5 @@
+백준 링크 : https://www.acmicpc.net/problem/2693
+
 <내 코드>
 
 ```python
