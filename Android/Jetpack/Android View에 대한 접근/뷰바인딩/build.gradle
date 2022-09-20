@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    //...생략
+
+    //뷰바인딩 사용시 추가
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+
+    //...생략
+}
