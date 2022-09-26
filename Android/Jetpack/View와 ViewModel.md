@@ -6,6 +6,7 @@
 2. Activity에서 ViewModel 사용하기
 3. Fragment에서 ViewModel 사용하기
 4. Activity / Fragment의 ViewModel 공유
+5. ViewModel Factory
 
 > ### ViewModel 이란?
 
@@ -224,3 +225,137 @@ class FragmentActivity : AppCompatActivity() {
 
 1. Activity의 값을 Fragment에서 쓰고 싶거나
 2. Fragment에서 값을 ViewModel의 값으로 사용하기 위해서
+
+액티비티와 액티비티 속 프래그먼트(초록색배경)이 ViewModel을 공유하는 예제를 만들었다.
+화면 회전 후에도 액티비티와 프래그먼트에 값이 잘 나타나는것을 볼 수 있다.
+![](https://velog.velcdn.com/images/woonyumnyum/post/93de543e-98c7-4c17-8ecd-75e32363c76a/image.png)
+![](https://velog.velcdn.com/images/woonyumnyum/post/7c718d8d-918a-4db9-9d35-98268ca60875/image.png)
+
+프래그먼트가 액티비티와 ViewModel을 공유하기 위해서는 gradle 파일에 아래 라이브러리를 추가해줘야한다.
+
+#### build.gradle
+
+```kotlin
+dependencies {
+
+    // 생략
+
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
+}
+```
+
+그리고 ViewModel클래스를 공유할 프래그먼트에서 아래와 같이 viewModel을 액티비티와 같은 ViewModel 클래스로 설정해준다. 이 ViewModel 클래스의 값을 가져와서 text에 적용해주면 화면 회전시 프래그먼트 화면에서도 값이 잘 보존된다. Activity 코드와 ViewModel 코드는 위 예제들과 같다.
+
+#### TestFragment.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import com.woonyum.jetpack_ex.databinding.FragmentTestBinding
+
+class TestFragment : Fragment() {
+
+    private lateinit var binding: FragmentTestBinding
+    // ViewModel 클래스 공유
+    private val viewModel: MainViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false)
+        binding.fragmentText.text = viewModel.getCount().toString()
+
+        return binding.root
+    }
+}
+```
+
+> ### ViewModel Factory
+
+ViewModel Factory를 사용하는 이유?
+
+- Repository 사용하거나 네트워크 통신을 할 때
+- 혹은 Local DB를 사용하거나 Room SQLite를 사용할 때
+
+액티비티에서 뷰모델을 생성시 값을 넘겨주고 싶을 때 사용한다.
+
+#### MainViewModelFactory.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+
+class MainViewModelFactory(private val num: Int) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(MainViewModel::class.java)){
+            return MainViewModel(num) as T
+        }
+        throw IllegalArgumentException("UnKnown ViewModel class")
+    }
+
+}
+```
+
+#### MainViewModel.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+
+class MainViewModel(num: Int) : ViewModel(){
+
+   init{
+       Log.d("MainViewModel", num.toString())
+   }
+}
+```
+
+#### MainActivity.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var viewModel:MainViewModel
+    lateinit var viewModelFactory: MainViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        viewModelFactory = MainViewModelFactory(5000)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+    }
+}
+```
+
+실행하면 액티비티에서 MainViewModel에 넘겨준 값 5000이 잘 출력된 것을 볼 수 있다.
+![](https://velog.velcdn.com/images/woonyumnyum/post/5f263959-08ce-4686-9173-2cb4c3f75592/image.png)
