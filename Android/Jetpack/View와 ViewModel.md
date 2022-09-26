@@ -2,11 +2,11 @@
 
 ---
 
-1. ViewModel 이란?
-2. Activity에서 ViewModel 사용하기
-3. Fragment에서 ViewModel 사용하기
-4. Activity / Fragment의 ViewModel 공유
-5. ViewModel Factory
+[1. ViewModel 이란?](#viewmodel-이란)
+[2. Activity에서 ViewModel 사용하기](#activity에서-viewmodel-사용하기)
+[3. Fragment에서 ViewModel 사용하기](#fragment에서-viewmodel-사용하기)
+[4. Activity / Fragment의 ViewModel 공유](#activity--fragment의-viewmodel-공유)
+[5. ViewModel Factory](#viewmodel-factory)
 
 > ### ViewModel 이란?
 
