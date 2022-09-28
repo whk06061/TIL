@@ -31,7 +31,7 @@
 <단점>
 
 - layout 표현식 또는 변수를 지원하지 않으므로(xml 파일에서 layout 루트 태그로 감싸고 data 요소 및 view 요소를 적는 등..의 표현식 지원X) xml 레이아웃 파일에서 직접 동적 UI 콘텐츠를 선언하지 못한다.
-- 양방향 데이터 결합을 지원하지 않는다.
+- [양방향 데이터 결합](https://developer.android.com/topic/libraries/data-binding/two-way?hl=ko)을 지원하지 않는다.
 
 #### build.gradle
 
@@ -100,7 +100,7 @@ class SecondActivity : AppCompatActivity() {
 
     val manager =supportFragmentManager
 
-				override fun onCreate(savedInstanceState: Bundle?) {
+	override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -110,7 +110,6 @@ class SecondActivity : AppCompatActivity() {
         transaction.replace(R.id.frameArea, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-
 
     }
 
@@ -164,9 +163,33 @@ class TestFragment : Fragment() {
         return view
     }
 
+     override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
 
 }
 ```
+
+#### 코드 설명
+
+**private var \_binding: FragmentMainBinding? = null**
+
+- 바인딩 객체 타입에 ?를 붙여서 null을 허용 해줘야한다. ( onDestroy 될 때 완벽하게 제거를 하기위해 )
+
+**private val binding [get()](https://gift123.tistory.com/59) = \_binding!!**
+
+- binding 변수의 getter를 명시적으로 커스텀. 즉, binding 변수를 쓸 때(get해올때) \_binding!! 값이 리턴됨
+- 매번 null 체크를 할 필요 없이 편의성을 위해 바인딩 변수 재 선언
+- 이 프로퍼티는 onCreateView와 onDestroyView 사이에서만 유효하다.
+
+#### onDestroyView를 사용하는 이유
+
+1. Activity와 다르게 Fragment에는 두가지의 라이프 사이클이 존재한다.
+   - Fragment LifeCycle과 Fragment View Lifecycle이 달라져서 생기는 문제!
+   - 기본적으로 Fragment는 Fragment가 가지는 View보다 오래 유지된다.
+2. View Binding은 Data Binding과 다르게 lifecycle을 모르기 때문에 binding 객체를 적절히 메모리에서 초기화 작업을 해야함
+   - 명시적으로 초기화 작업을 하지 않으면 메모리 누수 문제가 발생한다.
 
 #### fragment_test.xml
 
@@ -378,8 +401,6 @@ class TestFragment : Fragment() {
 
 data 객체를 view와 bind해서 사용해보자.
 
-view에 보여줄 Person이라는 data class를 선언한다.
-
 #### Person.kt
 
 ```kotlin
@@ -389,7 +410,7 @@ data class Person (
 )
 ```
 
-Person 객체를 초기화하여 xml 파일에서 선언된 data에 set해준다.
+view에 보여줄 Person이라는 data class를 선언한다.
 
 #### MainActivity.kt
 
@@ -427,9 +448,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-`<data>` 태그는 `<layout>`에서 사용할 변수를 정의하는데 사용된다.
-나는 Person 이라는 data class 객체를 사용할 것이기 때문에 name이 person인 변수를 한개 선언해주었다.
-레이아웃 내의 표현식은 `"@{}"` 구문을 사용하여 작성한다.
+Person 객체를 초기화하여 xml 파일에서 선언된 data에 set해준다.
 
 #### activity_main.xml
 
@@ -484,3 +503,7 @@ class MainActivity : AppCompatActivity() {
 
 </layout>
 ```
+
+`<data>` 태그는 `<layout>`에서 사용할 변수를 정의하는데 사용된다.
+나는 Person 이라는 data class 객체를 사용할 것이기 때문에 name이 person인 변수를 한개 선언해주었다.
+레이아웃 내의 표현식은 `"@{}"` 구문을 사용하여 작성한다.
