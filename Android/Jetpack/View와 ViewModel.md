@@ -42,7 +42,7 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel(){
 
-    private var countValue = 0
+    var countValue = 0
 
     fun plus(){
         countValue++
@@ -85,18 +85,18 @@ class MainActivity : AppCompatActivity() {
         val minus_btn : Button = findViewById(R.id.btn_minus)
         val result_tv : TextView = findViewById(R.id.tv_result)
 
-        result_tv.text = viewModel.getCount().toString()
+        result_tv.text = viewModel.countValue.toString()
 
         plus_btn.setOnClickListener {
             viewModel.plus()
-            result_tv.text = viewModel.getCount().toString()
+            result_tv.text = viewModel.countValue.toString()
 //            countValue++
 //            result_tv.text = countValue.toString()
         }
 
         minus_btn.setOnClickListener {
             viewModel.minus()
-            result_tv.text = viewModel.getCount().toString()
+            result_tv.text = viewModel.countValue.toString()
 //            countValue--
 //            result_tv.text = countValue.toString()
         }
