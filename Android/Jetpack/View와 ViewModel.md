@@ -167,7 +167,7 @@ package com.woonyum.jetpack_ex
 import androidx.lifecycle.ViewModel
 
 class TestFragmentViewModel : ViewModel() {
-    private var countValue = 0
+    var countValue = 0
 
     fun plus() {
         countValue++
