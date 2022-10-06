@@ -1,8 +1,6 @@
 > ### 목차
 >
-> [1. LiveData에 대한 개요 / 간단한 예제](#livedata에-대한-개요--간단한-예제)
-> [2. ViewModel과 LiveData 함께 써보기](#viewmodel과-livedata-함께-써보기)
-> [3. LiveData와 MutableLiveData 차이](#livedata와-mutablelivedata-차이)
+> [1. LiveData에 대한 개요 / 간단한 예제](#livedata에-대한-개요--간단한-예제) > [2. ViewModel과 LiveData 함께 써보기](#viewmodel과-livedata-함께-써보기) > [3. LiveData와 MutableLiveData 차이](#livedata와-mutablelivedata-차이)
 
 > ### LiveData에 대한 개요 / 간단한 예제
 
@@ -17,6 +15,7 @@
 - 리소스 공유
 
 -> 데이터를 관찰해줄 수 있는 친구(LifeCycle과 결합해서)
++LiveData 값의 변화는 observe 함수를 통해 관찰할 수 있다.
 
 LiveData를 활용해서, 버튼을 누르면 화면의 숫자가 1씩 증가하는 간단한 예제를 만들어봤다.
 ![](https://velog.velcdn.com/images/woonyumnyum/post/b911af93-492a-47e8-9eef-c6ab0033c5f6/image.png)
