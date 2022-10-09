@@ -5,6 +5,7 @@
 1. [동기 방식 vs 비동기 방식](#동기-방식-vs-비동기-방식)
 2. [콜백 지옥](#콜백-지옥)
 3. [코루틴 사용하기](#코루틴-사용하기)
+4. [ViewModelScope 사용하기](#viewmodelscope-사용하기)
 
 ---
 
@@ -61,6 +62,7 @@ api.getPostNumber(1).enqueue(object : Callback<Post> {
 
 ```kotlin
 package com.woonyum.jetpack_ex
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -81,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("TEST", "START")
         CoroutineScope(Dispatchers.IO).launch {
             a()
+            b()
         }
         Log.d("TEST", "END")
     }
@@ -89,10 +92,174 @@ class MainActivity : AppCompatActivity() {
         delay(3000)
         Log.d("TEST", "AP1")
     }
+    suspend fun b(){
+        delay(1000)
+        Log.d("TEST", "BP1")
+    }
 }
-
 ```
 
 코루틴은 CoroutineScope(Dispatchers.IO).launch로 사용되며 {..}로 묶은 코드가 비동기적으로 실행된다.
+AP1은 3초 후 출력되고, BP1은 1초 후 출력되므로
+START -> END -> BP1 -> AP1 순으로 로그에 찍힐 것 같지만
 실행 결과는 다음과 같다.
-![](https://velog.velcdn.com/images/woonyumnyum/post/ff0fd9ac-cda9-4c6d-b7be-4555509a4c48/image.png)
+![](https://velog.velcdn.com/images/woonyumnyum/post/4b14da22-d311-4745-b4f3-cf07856ee121/image.png)
+즉 코루틴 안에 쓴 함수들은 순차적으로 실행된다는 것을 알 수 있다!
+(헷갈리면 안되는 점이 CoroutineScope(Dispatchers.IO).launch{..} 으로 묶은 함수는 비동기적으로 실행되기 때문에 START -> END가 먼저 실행된다. 순차적으로 실행되는 것은 {..} 내부에서의 일이다!)
+
+> ### ViewModelScope 사용하기
+
+ViewModel에서 코루틴을 실행하는 예제를 만들어보자.
+MainActivity에서 버튼을 누르면 SecondActivity로 이동하고, SecondViewModel(SecondActivity와 연결됨)에서 for문 안에서 1초 딜레이 후 숫자를 찍는 코루틴 코드를 작성해보자.
+
+#### MainActivity.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+//간단한 Coroutine + ViewModelScope
+//https://jsonplaceholder.typicode.com/
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        findViewById<Button>(R.id.goToSecond).setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+```
+
+#### SecondViewModel.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class SecondViewModel : ViewModel() {
+    //뷰모델에서 비동기작업을 해보자
+    fun a() {
+        CoroutineScope(Dispatchers.IO).launch {
+            for (i in 0..10) {
+                delay(1000)
+                Log.d("SecondViewModel", i.toString())
+            }
+        }
+    }
+}
+```
+
+#### SecondActivity.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+
+class SecondActivity : AppCompatActivity() {
+    lateinit var viewModel: SecondViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        viewModel = ViewModelProvider(this).get(SecondViewModel::class.java)
+        viewModel.a()
+    }
+}
+```
+
+MainActivity에서 버튼을 누르면 SecondActivity로 이동하고 for문이 출력된다. 그러나 뒤로가기를 통해 SecondActivity에서 벗어나도 SecondViewModel에서 코루틴이 종료되지 않고 계속 실행되는 것을 볼 수 있다. 그래서 액티비티에서 벗어나서 뷰모델이 필요가 없어질때 코루틴이 종료되게 하려면 별도로 처리를 해야한다. 이는 매우 번거로운 작업이다.
+
+이럴때 [ViewModelScope](#https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko)를 사용하면 간편하게 코루틴을 처리할 수 있다.
+
+> #### build.gradle 종속성 추가
+
+```kotlin
+implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+```
+
+> #### SecondViewMoel에서 viewModelScope 사용하기
+
+#### SecondViewModel.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class SecondViewModel : ViewModel() {
+    //뷰모델에서 비동기작업을 해보자
+    fun a() {
+        CoroutineScope(Dispatchers.IO).launch {
+            for (i in 0..10) {
+                delay(1000)
+                Log.d("SecondViewModel A:", i.toString())
+            }
+        }
+    }
+
+	//viewModelScope 사용하기
+    fun b(){
+        viewModelScope.launch {
+            for (i in 0..10) {
+                delay(1000)
+                Log.d("SecondViewModel B:", i.toString())
+            }
+        }
+    }
+}
+```
+
+#### SecondActivity.kt
+
+```kotlin
+package com.woonyum.jetpack_ex
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+
+class SecondActivity : AppCompatActivity() {
+    lateinit var viewModel: SecondViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        viewModel = ViewModelProvider(this).get(SecondViewModel::class.java)
+        viewModel.a()
+        viewModel.b()
+    }
+}
+```
+
+SecondViewModel 에서 함수 b는 viewModelScope를 사용해서 for문을 돌면서 숫자를 출력한다. SecondActivity를 벗어나면 viewModelScope를 사용한 b는 더이상 출력되지 않고 a만 출력되는 것을 볼 수 있다.
