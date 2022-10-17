@@ -1,5 +1,14 @@
-import heapq
-q = []
-food_times = [3,1,2]
-for i in range(len(food_times)):
-    heapq.heappush(q, (food_times[i], i+1))
+from difflib import restore
+import sys
+sys.stdin = open("input.txt", "r")
+n, m = map(int, input().split())
+data = list(map(int, input().split()))
+count = [0] * (m+1)
+result = 0
+data.sort()
+for x in data:
+    count[x] += 1
+for i in range(1, m+1):
+    n = n - count[i]
+    result += n * count[i]
+print(result)
