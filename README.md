@@ -9,7 +9,8 @@
 ✔️ 안드로이드 개요 공부 정리
   - <이것이 안드로이드다 with 코틀린> 교재 참고<br/>
 
-✔️ <[친절한 JETPACK 개론](https://www.inflearn.com/course/%EC%B9%9C%EC%A0%88%ED%95%9C-jetpack-1/dashboard)> 내용 정리
+✔️ <[친절한 JETPACK 개론](https://www.inflearn.com/course/%EC%B9%9C%EC%A0%88%ED%95%9C-jetpack-1/dashboard)> 내용 정리 <br/>
+✔️ 모르는 내용 추가 학습
 
 ## ✏️코틀린
 ✔️ 코틀린 문법 공부
