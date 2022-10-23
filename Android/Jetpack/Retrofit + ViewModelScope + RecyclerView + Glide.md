@@ -5,7 +5,7 @@
 
 Android의 권장 앱 아키텍처는 코드를 클래스로 분할하여 관심사 분리의 이점을 누리길 권장한다.
 
-지금까지 예제에서는 Repository를 거치지 않고 ViewModel에서 바로 Retrofit으로 데이터를 불러왔었다. 이번 예제에서는 권장 아키텍쳐를 사용하며 Repository를 생성하여 여기서 데이터를 받아오고 ViewModel과 데이터를 연결해서 사용할 것이다.
+지금까지 예제에서는 Repository를 거치지 않고 ViewModel에서 바로 Retrofit으로 데이터를 불러왔었다. 이번 예제에서는 권장 아키텍쳐를 사용하며 Repository를 생성해서 여기서 데이터를 받아오고 ViewModel과 데이터를 연결해서 사용할 것이다.
 
 > # 예제 소개
 
@@ -25,6 +25,8 @@ Retrofit으로 위 url의 식물 데이터들(텍스트, 이미지)을 불러와
 ## 1. 종속성을 추가해준다.
 
 #### 1-1. Retrofit, Coroutine, Glide를 사용하기 위해 gradle 파일에 종속성을 추가해준다.
+
+Glide 라이브러리 사용하기: https://github.com/bumptech/glide
 
 ```kotlin
 dependencies {
@@ -184,3 +186,8 @@ class CustomAdapter(val context: Context, val dataSet: List<Plant>) :
     }
 }
 ```
+
+---
+
+RecyclerView Adapter 각 함수의 작동방식과 매개변수의 의미를 잘 모르겠다. 특히 상속받을 때 제네릭타입으로 어댑터의 ViewHolder가 넘어가는 방식이 잘 이해가 안된다.
+공부해서 정리해야지
